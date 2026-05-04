@@ -83,6 +83,52 @@ Even if the user's message implies a change (e.g. "fix the venue address"), do n
 
 ---
 
+## AUTO DEPLOYMENT RULE (MANDATORY)
+
+> This applies to every code change in this project, no exceptions. Never output a code change without the full Git + deployment block below.
+
+### 1. Scope changes correctly
+- Modify only the files required for the task
+- Do not touch unrelated components or config
+
+### 2. Always output Git instructions after any code change
+
+```bash
+git add <changed-files>
+git commit -m "describe what changed and why"
+git push origin main
+```
+
+- Use specific file paths in `git add`, not `git add .`, so the user can review exactly what is staged
+- Commit message must describe the change clearly (e.g. `fix: RSVPForm null guard on eventId` not `update code`)
+
+### 3. Always include this deployment reminder
+
+> Vercel will auto-deploy this change after push. The live site will update within ~1 minute of the push completing.
+
+### 4. Always end with a verification block
+
+After the Git instructions, output exactly this (filled in with real values):
+
+```
+Files changed:
+  - components/RSVPForm.tsx
+  - app/invite/[slug]/page.tsx
+
+Deployment: Vercel will trigger automatically on push to main
+Live URL:   https://wedding-invite-system.vercel.app/invite/[slug]
+```
+
+### 5. No exceptions
+A code change response is incomplete without steps 2, 3, and 4 above. This applies to:
+- Bug fixes
+- New components
+- Supabase schema changes
+- Config or environment changes
+- Any edit, however small
+
+---
+
 ## Agent Flow — 3 Steps for Every New Wedding
 
 Every time a new wedding invite is requested, follow these steps in order. Do not skip or combine steps.

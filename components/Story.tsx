@@ -5,7 +5,7 @@ import { motion, useInView } from "framer-motion";
 
 const milestones = [
   {
-    year: "2018",
+    year: "2017",
     title: "First Hello",
     body: "She came to borrow a tin opener while I was visiting a friend…\nI knew I had to impress.",
   },
@@ -15,7 +15,7 @@ const milestones = [
     body: "Road trips to the Blyde, apartment house parties,\nand the kind of laughter that leaves your stomach sore.\nThat's when we knew.",
   },
   {
-    year: "2022",
+    year: "2021",
     title: "I Asked",
     body: "She was carrying our first child…\nand I knew it was the right time to send abo Malume.",
   },
