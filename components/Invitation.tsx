@@ -57,7 +57,7 @@ export default function Invitation() {
           style={{ y: ringsY, opacity: ringsOpacity }}
         >
           <img
-            src="/images/invitation/Invitation.png"
+            src="/images/Invitation/Invitation.png"
             alt=""
             className="w-full drop-shadow-lg"
           />

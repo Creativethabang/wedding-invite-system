@@ -54,7 +54,7 @@ export default function DressCode() {
         {/* Colour Palette */}
         <motion.div
           ref={paletteRef}
-          className="mb-10 flex items-center justify-center gap-6"
+          className="mb-10 flex items-center justify-center gap-3 sm:gap-6"
           initial={{ opacity: 0, y: 16 }}
           animate={paletteInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
@@ -68,11 +68,11 @@ export default function DressCode() {
               transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 + i * 0.1 }}
             >
               <div
-                className="h-14 w-14 rounded-full shadow-md"
+                className="h-10 w-10 sm:h-14 sm:w-14 rounded-full shadow-md"
                 style={{ backgroundColor: color.hex }}
                 aria-label={color.name}
               />
-              <span className="font-sans text-[9px] uppercase tracking-widest text-[#041c3e]/50">
+              <span className="font-sans text-[8px] sm:text-[9px] uppercase tracking-widest text-[#041c3e]/50">
                 {color.name}
               </span>
             </motion.div>
