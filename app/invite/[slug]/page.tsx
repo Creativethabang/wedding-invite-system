@@ -7,7 +7,7 @@ import Story from "@/components/Story";
 import Venue from "@/components/Venue";
 import DressCode from "@/components/DressCode";
 import RSVPForm from "./RSVPForm";
-import InviteClient from "./InviteClient";
+import InviteClient from "@/components/InviteClient";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
