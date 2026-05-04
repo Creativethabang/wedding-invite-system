@@ -190,21 +190,19 @@ function ScratchBox({ label, value, animDelay = 0 }: ScratchBoxProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.9, delay: animDelay, ease: [0.22, 1, 0.36, 1] }}
     >
-      {/* Label above box */}
       <span className="text-[#8b7355]/60 text-[10px] uppercase tracking-[0.35em] font-light">
         {label}
       </span>
 
-      {/* Scratch card box */}
       <div
         ref={containerRef}
-        className="relative w-[130px] h-[130px] bg-[#fcf9f4] border border-[#c9a96e]/40 overflow-hidden flex items-center justify-center"
+        className="relative w-[100px] h-[100px] sm:w-[130px] sm:h-[130px] bg-[#fcf9f4] border border-[#c9a96e]/40 overflow-hidden flex items-center justify-center"
       >
         {/* Content revealed underneath */}
         <div className="absolute inset-0 flex flex-col items-center justify-center select-none pointer-events-none">
           <p
             className="font-serif text-[#8b6914] leading-none"
-            style={{ fontSize: value.length > 4 ? "1.9rem" : "2.8rem" }}
+            style={{ fontSize: value.length > 4 ? "1.5rem" : "2.2rem" }}
           >
             {value}
           </p>
@@ -250,15 +248,10 @@ export default function SaveTheDate() {
   return (
     <section
       ref={ref}
-      className="relative flex flex-col items-center justify-center bg-[#fcf9f4] px-6 pt-20 pb-10 text-center overflow-hidden"
+      className="relative flex flex-col items-center justify-center bg-[#fcf9f4] px-4 pt-14 pb-10 text-center overflow-hidden sm:px-6 sm:pt-20"
     >
-      
-
-    
-
-      {/* Main title — Great Vibes script */}
       <motion.h2
-        className="font-script text-[#2a1f0e] text-6xl mb-3"
+        className="font-script text-[#2a1f0e] text-5xl mb-3 sm:text-6xl"
         initial={{ opacity: 0, y: 18 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
@@ -266,17 +259,15 @@ export default function SaveTheDate() {
         The Date
       </motion.h2>
 
-      {/* Divider */}
       <motion.div
-        className="w-12 h-px bg-[#c9a96e]/50 mb-3"
+        className="w-10 h-px bg-[#c9a96e]/50 mb-3"
         initial={{ scaleX: 0 }}
         animate={inView ? { scaleX: 1 } : {}}
         transition={{ duration: 0.8, delay: 0.3 }}
       />
 
-      {/* Subtitle — Cormorant Garamond */}
       <motion.p
-        className="font-serif text-[#8b7355]/80 text-xl tracking-[0.12em] italic mb-7"
+        className="font-serif text-[#8b7355]/70 text-base tracking-[0.08em] italic mb-7 sm:text-xl sm:tracking-[0.12em]"
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
         transition={{ duration: 0.8, delay: 0.4 }}
@@ -284,8 +275,7 @@ export default function SaveTheDate() {
         ✦ &nbsp; Scratch to reveal the date &nbsp; ✦
       </motion.p>
 
-      {/* Three scratch boxes */}
-      <div className="flex items-start gap-5 sm:gap-7">
+      <div className="flex items-start gap-4 sm:gap-7">
         <ScratchBox label="Day"   value="21"   animDelay={0.5} />
         <ScratchBox label="Month" value="June" animDelay={0.65} />
         <ScratchBox label="Year"  value="2026" animDelay={0.8} />
