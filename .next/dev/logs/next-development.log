@@ -1,5 +1,0 @@
-{"timestamp":"15:29:33.761","source":"Server","level":"ERROR","message":"⨯ Error: ENOENT: no such file or directory, open '/Users/thabang/Desktop/Claude Agent teams/.next/dev/server/app/page/build-manifest.json'"}
-{"timestamp":"15:29:33.790","source":"Server","level":"ERROR","message":"⨯ Error: ENOENT: no such file or directory, open '/Users/thabang/Desktop/Claude Agent teams/.next/dev/server/pages/_app/build-manifest.json'"}
-{"timestamp":"15:29:33.814","source":"Server","level":"ERROR","message":"Error: ENOENT: no such file or directory, open '/Users/thabang/Desktop/Claude Agent teams/.next/dev/server/app/page/build-manifest.json'"}
-{"timestamp":"15:29:33.845","source":"Server","level":"ERROR","message":"⨯ Error: ENOENT: no such file or directory, open '/Users/thabang/Desktop/Claude Agent teams/.next/dev/server/pages/_app/build-manifest.json'"}
-{"timestamp":"15:29:33.869","source":"Server","level":"ERROR","message":"Error: ENOENT: no such file or directory, open '/Users/thabang/Desktop/Claude Agent teams/.next/dev/server/pages/_app/build-manifest.json'"}
