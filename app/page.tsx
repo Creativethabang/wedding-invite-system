@@ -8,6 +8,7 @@ import Story from "@/components/Story";
 import Venue from "@/components/Venue";
 import DressCode from "@/components/DressCode";
 import RSVPForm from "@/components/RSVPForm";
+import CinematicCTA from "@/components/CinematicCTA";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -32,6 +33,7 @@ export default async function Home() {
       <Venue />
       <DressCode />
       <RSVPForm eventId={event.id} />
+      <CinematicCTA />
     </InviteClient>
   );
 }
