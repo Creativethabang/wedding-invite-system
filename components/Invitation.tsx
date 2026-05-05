@@ -3,23 +3,30 @@
 import { useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 
+type Client = {
+  couple?: string;
+  invitationText?: string;
+};
+
 const items = [
-  { delay: 0 },    // glyph
-  { delay: 0.3 },  // salutation
-  { delay: 0.6 },  // body
-  { delay: 0.9 },  // ornament rules
-  { delay: 1.1 },  // closing detail
+  { delay: 0 },
+  { delay: 0.3 },
+  { delay: 0.6 },
+  { delay: 0.9 },
+  { delay: 1.1 },
 ];
 
-export default function Invitation() {
+export default function Invitation({ client }: any) {
+  const safeClient: Client = client ?? {};
+
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.1, margin: "-60px" });
 
-  // Rings rise up as the section scrolls into view
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "center center"],
   });
+
   const ringsY = useTransform(scrollYProgress, [0, 1], [100, 0]);
   const ringsOpacity = useTransform(scrollYProgress, [0, 0.35], [0, 1]);
 
@@ -29,17 +36,17 @@ export default function Invitation() {
     transition: { duration: 1.2, ease: "easeOut", delay: items[i].delay },
   });
 
+  const couple = safeClient.couple || "Thabang & Emihle";
+
+  const invitationText =
+    safeClient.invitationText ||
+    `Together with their families, ${couple} joyfully request the honour of your presence as they exchange vows and begin their forever. Join us for an evening of love, laughter, and celebration beneath the Johannesburg sky.`;
+
   return (
-    <section
-      ref={ref}
-      className="bg-[#fcf9f4] px-8 pt-10 pb-24"
-    >
+    <section ref={ref} className="bg-[#fcf9f4] px-8 pt-10 pb-24">
       <div className="relative mx-auto max-w-2xl text-center">
         {/* Glyph */}
-        <motion.span
-          className="relative z-10 text-sm text-gold/60"
-          {...anim(0)}
-        >
+        <motion.span className="relative z-10 text-sm text-gold/60" {...anim(0)}>
           ✦
         </motion.span>
 
@@ -51,7 +58,7 @@ export default function Invitation() {
           You are invited
         </motion.p>
 
-        {/* Rings — in flow, right above white card, bottom edge tucked behind it */}
+        {/* Rings */}
         <motion.div
           className="pointer-events-none relative z-[5] mx-auto mt-4 w-[180px] -mb-14"
           style={{ y: ringsY, opacity: ringsOpacity }}
@@ -63,20 +70,15 @@ export default function Invitation() {
           />
         </motion.div>
 
-        {/* Body — white invite card sits in front of rings */}
+        {/* Card */}
         <motion.div
           className="relative z-20 mt-0 rounded-2xl bg-white px-10 py-10 shadow-[0_8px_40px_rgba(0,0,0,0.08)]"
           {...anim(2)}
         >
           <p className="font-serif text-xl font-light leading-[1.9] text-neutral-600">
-            Together with their families, Thabang and Emihle joyfully request the
-            honour of your presence as they exchange vows and begin their forever.
-            Join us for an evening of love, laughter, and celebration beneath the
-            Johannesburg sky.
+            {invitationText}
           </p>
         </motion.div>
-
-      
       </div>
     </section>
   );

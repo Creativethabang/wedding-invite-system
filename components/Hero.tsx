@@ -3,24 +3,28 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-const weddingDate = new Date("2026-06-21");
+type Client = {
+  date?: string;
+  couple?: string;
+  heroVideo?: string;
+};
 
-function getDaysUntil() {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const diff = weddingDate.getTime() - today.getTime();
-  return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
-}
+export default function Hero(props: any) {
+  const client: Client = props?.client ?? {};
 
-const cornerClasses = [
-  "top-6 left-6 border-t border-l sm:top-8 sm:left-8",
-  "top-6 right-6 border-t border-r sm:top-8 sm:right-8",
-  "bottom-6 left-6 border-b border-l sm:bottom-8 sm:left-8",
-  "bottom-6 right-6 border-b border-r sm:bottom-8 sm:right-8",
-];
-
-export default function Hero() {
   const [mounted, setMounted] = useState(false);
+
+  const weddingDate = new Date(
+    client?.date || "2026-06-21"
+  );
+
+  function getDaysUntil() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diff = weddingDate.getTime() - today.getTime();
+    return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+  }
+
   const daysUntil = getDaysUntil();
 
   useEffect(() => {
@@ -28,12 +32,19 @@ export default function Hero() {
     return () => clearTimeout(t);
   }, []);
 
+  const cornerClasses = [
+    "top-6 left-6 border-t border-l sm:top-8 sm:left-8",
+    "top-6 right-6 border-t border-r sm:top-8 sm:right-8",
+    "bottom-6 left-6 border-b border-l sm:bottom-8 sm:left-8",
+    "bottom-6 right-6 border-b border-r sm:bottom-8 sm:right-8",
+  ];
+
   return (
     <section className="relative w-screen h-screen overflow-hidden bg-black">
 
       <video
         className="absolute inset-0 w-full h-full object-cover"
-        src="/images/hero/Hero.webm"
+        src={client?.heroVideo || "/images/hero/Hero.webm"}
         autoPlay
         muted
         loop
@@ -61,7 +72,7 @@ export default function Hero() {
           className="font-sans text-[9px] uppercase tracking-[0.35em] text-beige/50"
           initial={{ opacity: 0, y: 10 }}
           animate={mounted ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+          transition={{ duration: 1, delay: 0.2 }}
         >
           Together with their families
         </motion.p>
@@ -70,16 +81,16 @@ export default function Hero() {
           className="mt-4 font-script text-5xl text-beige sm:text-6xl md:text-7xl"
           initial={{ opacity: 0, y: 16 }}
           animate={mounted ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1.2, delay: 0.4, ease: "easeOut" }}
+          transition={{ duration: 1.2, delay: 0.4 }}
         >
-          Thabang &amp; Emihle
+          {client?.couple || "Thabang & Emihle"}
         </motion.h1>
 
         <motion.div
           className="my-6 flex items-center gap-3 sm:my-8"
           initial={{ opacity: 0, scaleX: 0.4 }}
           animate={mounted ? { opacity: 1, scaleX: 1 } : {}}
-          transition={{ duration: 0.9, delay: 0.65, ease: "easeOut" }}
+          transition={{ duration: 0.9, delay: 0.65 }}
         >
           <div className="h-px w-12 bg-gold/40 sm:w-16" />
           <span className="text-[10px] text-gold/60">✦</span>
@@ -90,7 +101,7 @@ export default function Hero() {
           className="font-sans text-[10px] uppercase tracking-[0.4em] text-gold/50"
           initial={{ opacity: 0 }}
           animate={mounted ? { opacity: 1 } : {}}
-          transition={{ duration: 1, delay: 0.85, ease: "easeOut" }}
+          transition={{ duration: 1, delay: 0.85 }}
         >
           {daysUntil} days away
         </motion.p>
@@ -107,6 +118,7 @@ export default function Hero() {
         >
           scroll
         </motion.span>
+
         {[0, 0.3].map((_, i) => (
           <div
             key={i}
