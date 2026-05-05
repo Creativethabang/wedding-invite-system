@@ -3,15 +3,37 @@ export async function register() {
 
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const dns = require("dns") as typeof import("dns");
+
+  // Detect broken getaddrinfo: on this machine, the artifact.local search
+  // domain causes mDNSResponder to block for 5-30s before falling through to
+  // real DNS. If a lookup hasn't resolved in 1 second, we apply the patch.
+  const dnsIsBroken = await new Promise<boolean>((resolve) => {
+    let done = false;
+    const timer = setTimeout(() => {
+      if (!done) {
+        done = true;
+        resolve(true); // took longer than 1s — DNS is broken
+      }
+    }, 1000);
+
+    dns.lookup("github.com", { family: 4 }, (err: unknown) => {
+      if (!done) {
+        done = true;
+        clearTimeout(timer);
+        resolve(!!err);
+      }
+    });
+  });
+
+  if (!dnsIsBroken) return; // Vercel and other healthy environments exit here
+
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const https = require("https") as typeof import("https");
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const http = require("http") as typeof import("http");
 
-  // Custom lookup: use dns.resolve4 to bypass macOS getaddrinfo search-domain
-  // timeouts (the artifact.local search domain causes 5-30s mDNS hangs before
-  // falling through to real DNS). Handles both all:true and single-address
-  // callback forms that Node.js agents use.
+  // Use dns.resolve4 for all lookups: bypasses getaddrinfo / mDNS entirely.
+  // Handles both single-address (default) and all-address (all:true) forms.
   const customLookup = (
     hostname: string,
     opts: { all?: boolean } | unknown,
@@ -23,20 +45,16 @@ export async function register() {
   ) => {
     dns.resolve4(hostname, (err, addrs) => {
       if (err || !addrs?.length) {
-        // Resolve4 failed — pass error so the request fails fast
-        (cb as (e: unknown) => void)(
-          err ?? new Error("No IPv4 addresses for " + hostname)
+        (cb as (e: NodeJS.ErrnoException) => void)(
+          err ?? Object.assign(new Error("No IPv4 for " + hostname), { code: "ENOTFOUND" })
         );
         return;
       }
       if ((opts as { all?: boolean })?.all) {
-        // all:true — caller expects [{address, family}]
-        (
-          cb as (
-            e: null,
-            a: Array<{ address: string; family: 4 }>
-          ) => void
-        )(null, addrs.map((a) => ({ address: a, family: 4 as const })));
+        (cb as (e: null, a: Array<{ address: string; family: 4 }>) => void)(
+          null,
+          addrs.map((a) => ({ address: a, family: 4 as const }))
+        );
       } else {
         (cb as (e: null, a: string, f: 4) => void)(null, addrs[0], 4);
       }
