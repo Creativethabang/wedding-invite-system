@@ -3,133 +3,79 @@
 import { useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 
-type Client = {
-  couple?: string;
-
-  storyHook?: string;
-  storyBody?: string;
-  invitationMessage?: string;
-  closingMessage?: string;
-
-  tone?: "formal" | "modern" | "romantic";
-};
-
 const items = [
-  { delay: 0 },
-  { delay: 0.3 },
-  { delay: 0.6 },
-  { delay: 0.9 },
+  { delay: 0 },    // glyph
+  { delay: 0.3 },  // salutation
+  { delay: 0.6 },  // body
+  { delay: 0.9 },  // ornament rules
+  { delay: 1.1 },  // closing detail
 ];
 
-export default function Invitation({ client }: { client?: Client }) {
-  const safeClient = client ?? {};
-
+export default function Invitation() {
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.1 });
+  const inView = useInView(ref, { once: true, amount: 0.1, margin: "-60px" });
 
+  // Rings rise up as the section scrolls into view
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "center center"],
   });
-
   const ringsY = useTransform(scrollYProgress, [0, 1], [100, 0]);
   const ringsOpacity = useTransform(scrollYProgress, [0, 0.35], [0, 1]);
 
   const anim = (i: number) => ({
     initial: { opacity: 0, y: 20 },
     animate: inView ? { opacity: 1, y: 0 } : {},
-    transition: { duration: 1, ease: "easeOut", delay: items[i].delay },
+    transition: { duration: 1.2, ease: "easeOut", delay: items[i].delay },
   });
 
-  const couple = safeClient.couple || "Thabang & Emihle";
-
-  const storyHook =
-    safeClient.storyHook ||
-    "A love story written in time, laughter, and quiet moments.";
-
-  const storyBody =
-    safeClient.storyBody ||
-    `${couple} have walked a journey filled with growth, connection, and meaning.`;
-
-  const invitationMessage =
-    safeClient.invitationMessage ||
-    "Together with their families, they joyfully invite you to witness their union.";
-
-  const closingMessage =
-    safeClient.closingMessage ||
-    "Join us for an evening of love, celebration, and unforgettable memories.";
-
-  const tone = safeClient.tone || "romantic";
-
-  const toneStyle =
-    tone === "formal"
-      ? "uppercase tracking-widest text-sm"
-      : tone === "modern"
-      ? "tracking-wide text-base"
-      : "font-serif italic text-lg leading-relaxed";
-
   return (
-    <section ref={ref} className="bg-[#fcf9f4] px-8 pt-10 pb-24">
+    <section
+      ref={ref}
+      className="bg-[#fcf9f4] px-8 pt-10 pb-24"
+    >
       <div className="relative mx-auto max-w-2xl text-center">
-
-        {/* Ornament */}
-        <motion.span className="text-gold text-sm" {...anim(0)}>
+        {/* Glyph */}
+        <motion.span
+          className="relative z-10 text-sm text-gold/60"
+          {...anim(0)}
+        >
           ✦
         </motion.span>
 
-        {/* Couple */}
+        {/* Salutation */}
         <motion.p
-          className="mt-6 font-script text-6xl text-neutral-800"
+          className="relative z-10 mt-6 font-script text-6xl text-neutral-800 md:text-7xl"
           {...anim(1)}
         >
-          {couple}
+          You are invited
         </motion.p>
 
-        {/* Story Hook */}
-        <motion.p
-          className="mt-4 text-neutral-600"
-          {...anim(1)}
-        >
-          {storyHook}
-        </motion.p>
-
-        {/* Rings */}
+        {/* Rings — in flow, right above white card, bottom edge tucked behind it */}
         <motion.div
-          className="mx-auto mt-6 w-[160px]"
+          className="pointer-events-none relative z-[5] mx-auto mt-4 w-[180px] -mb-14"
           style={{ y: ringsY, opacity: ringsOpacity }}
         >
           <img
             src="/images/Invitation/Invitation.png"
-            className="w-full drop-shadow-lg"
             alt=""
+            className="w-full drop-shadow-lg"
           />
         </motion.div>
 
-        {/* Card */}
+        {/* Body — white invite card sits in front of rings */}
         <motion.div
-          className="mt-6 rounded-2xl bg-white px-10 py-10 shadow-lg"
+          className="relative z-20 mt-0 rounded-2xl bg-white px-10 py-10 shadow-[0_8px_40px_rgba(0,0,0,0.08)]"
           {...anim(2)}
         >
-          <p className={toneStyle}>
-            {storyBody}
-          </p>
-
-          <p className="mt-6 font-serif text-neutral-600">
-            {invitationMessage}
-          </p>
-
-          <p className="mt-6 text-sm text-neutral-500">
-            {closingMessage}
+          <p className="font-serif text-xl font-light leading-[1.9] text-neutral-600">
+            Together with their families, Thabang and Emihle joyfully request the
+            honour of your presence as they exchange vows and begin their forever.
+            Join us for an evening of love, laughter, and celebration beneath the
+            Johannesburg sky.
           </p>
         </motion.div>
 
-        {/* Signature */}
-        <motion.p
-          className="mt-10 text-xs uppercase tracking-[0.3em] text-gold/60"
-          {...anim(3)}
-        >
-          With love · {couple}
-        </motion.p>
 
       </div>
     </section>

@@ -1,6 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
 import { notFound } from "next/navigation";
-
 import InviteClient from "@/components/InviteClient";
 import Hero from "@/components/Hero";
 import SaveTheDate from "@/components/SaveTheDate";
@@ -16,48 +15,24 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export default async function Page({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const { slug } = params;
-
-  const { data: event, error } = await supabase
+export default async function Home() {
+  const { data: event } = await supabase
     .from("events")
-    .select("*")
-    .eq("slug", slug)
+    .select("id")
+    .eq("slug", "thabang-and-emihle")
     .single();
 
-  if (!event || error) notFound();
-
-  // 🏭 FACTORY TRANSLATION LAYER (IMPORTANT)
-  const client = {
-    id: event.id,
-    slug: event.slug,
-
-    couple: event.couple_names,
-    date: event.date,
-    venue: event.venue,
-
-    storyIntro: event.story_intro,
-    invitationText: event.invitation_text,
-    closingMessage: event.closing_message,
-
-    heroVideo: event.hero_video,
-    theme: event.theme,
-  };
+  if (!event) notFound();
 
   return (
     <InviteClient>
-      <Hero client={client} />
-      <SaveTheDate client={client} />
-      <Invitation client={client} />
-      <Story client={client} />
-      <Venue client={client} />
-      <DressCode client={client} />
-
-      <RSVPForm eventId={client.id} />
+      <Hero />
+      <SaveTheDate />
+      <Invitation />
+      <Story />
+      <Venue />
+      <DressCode />
+      <RSVPForm eventId={event.id} />
       <CinematicCTA />
     </InviteClient>
   );
