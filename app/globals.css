@@ -2,10 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =========================
+   THEME VARIABLES
+========================= */
 :root {
   --bg-warm: #0d0c0a;
 }
 
+/* =========================
+   BASE STYLES
+========================= */
 html {
   scroll-behavior: smooth;
 }
@@ -13,17 +19,43 @@ html {
 body {
   background-color: #0a0a0a;
   color: #f5f0e8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* =========================
+   TEXT SELECTION STYLE
+========================= */
 ::selection {
   background-color: rgba(201, 168, 76, 0.25);
   color: #f5f0e8;
 }
 
+/* =========================
+   UTILITIES
+========================= */
+
+/* Hide scrollbar (cross-browser) */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* =========================
+   OPTIONAL: SAFETY FIX FOR TAILWIND WARNINGS
+   (prevents unknown-at-rule lint issues in VS Code)
+========================= */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #0a0a0a;
+    color: #f5f0e8;
+  }
 }
