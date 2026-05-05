@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
 const WHATSAPP_URL =
-  "https://wa.me/21814568372?text=Hi%2C%20I%20just%20saw%20the%20wedding%20invite%20experience%20and%20I%27d%20love%20one%20for%20my%20wedding%20%F0%9F%92%8D";
+  "https://wa.me/28814568372?text=Hi%2C%20I%20just%20saw%20the%20wedding%20invite%20experience%20and%20I%27d%20love%20one%20for%20my%20wedding%20%F0%9F%92%8D";
 
 export default function CinematicCTA() {
   const ref = useRef(null);
